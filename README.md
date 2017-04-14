@@ -6,6 +6,22 @@ Simple worker pool for typescript and javascript
 
 > npm install @mcrowe/worker-pool --save
 
+```js
+import WorkerPool from '@mcrowe/worker-pool'
+
+function work() {
+  return Promise.resolve()
+}
+
+const pool = new WorkerPool(10, 100, work)
+
+pool.start()
+
+//...
+
+pool.stop()
+```
+
 ## Development
 
 Install npm modules:

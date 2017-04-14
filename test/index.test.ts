@@ -1,10 +1,24 @@
 import assert = require('assert')
-import doSomething from '../src'
+import WorkerPool from '../src'
 
 
 suite('index', () => {})
 
 
-test('index', () => {
-  assert.equal(5, doSomething(1))
+test('index', done => {
+  let i = 0
+
+  async function work() {
+    i += 1
+  }
+
+  const pool = new WorkerPool(3, 100, work)
+
+  pool.start()
+
+  setTimeout(() => {
+    assert.equal(30, i)
+    pool.stop()
+    done()
+  }, 1000)
 })
