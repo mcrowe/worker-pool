@@ -1,14 +1,16 @@
-export type Promiser = () => Promise<void>
+export interface IHandler {
+  (id?: number): Promise<void>
+}
 
 
 class WorkerPool {
 
   size: number
   delay: number
-  fn: Promiser
+  fn: IHandler
   isRunning: boolean
 
-  constructor(size: number, delay: number, fn: Promiser) {
+  constructor(size: number, delay: number, fn: IHandler) {
     this.size = size
     this.delay = delay
     this.fn = fn
@@ -19,7 +21,7 @@ class WorkerPool {
     this.isRunning = true
 
     for (let i = 0; i < this.size; i++) {
-      this.work()
+      this.work(i)
     }
   }
 
@@ -27,17 +29,17 @@ class WorkerPool {
     this.isRunning = false
   }
 
-  private async work() {
+  private async work(id: number) {
     if (!this.isRunning) {
       return
     }
     try {
-      await this.fn()
+      await this.fn(id)
     } catch (e) {
       console.error('Error working', e)
     }
 
-    setTimeout(() => this.work(), this.delay)
+    setTimeout(() => this.work(id), this.delay)
   }
 
 }

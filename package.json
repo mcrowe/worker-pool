@@ -6,8 +6,9 @@
   "license": "ISC",
   "repository": "https://github.com/mcrowe/worker-pool",
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha -u qunit --recursive -r ./node_modules/ts-node/register test/*",
-    "build": "./node_modules/typescript/bin/tsc"
+    "build": "tsc",
+    "test": "ava",
+    "watch": "tsc -w"
   },
   "main": "lib/index.js",
   "typings": "lib/index",
@@ -15,10 +16,15 @@
     "lib/"
   ],
   "devDependencies": {
-    "@types/mocha": "^2.2.39",
-    "@types/node": "^7.0.12",
+    "@types/node": "^8.0.34",
     "mocha": "^3.2.0",
-    "ts-node": "^2.1.0",
-    "typescript": "^2.1.4"
+    "ava": "^0.23.0",
+    "typescript": "^2.5.3"
+  },
+  "ava": {
+    "files": [
+      "lib/**/*.test.js"
+    ],
+    "verbose": true
   }
 }
